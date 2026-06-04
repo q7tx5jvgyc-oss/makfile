@@ -5,14 +5,23 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Theos
+      
+      - name: Prepare Theos
         run: |
-          bash -c "$(curl -fsSL https://raw.githubusercontent.com/theos/theos/master/bin/install-theos)"
+          # التثبيت المباشر بدون استخدام API
+          git clone --depth=1 https://github.com/theos/theos.git $HOME/theos
+          # تحميل الـ SDK الخاص بـ iOS (مطلوب للبناء)
+          mkdir -p $HOME/theos/sdks
+          curl -L -o $HOME/theos/sdks/iPhoneOS14.5.sdk.tar.xz https://github.com/theos/sdks/releases/download/latest/iPhoneOS14.5.sdk.tar.xz
+          tar -xf $HOME/theos/sdks/iPhoneOS14.5.sdk.tar.xz -C $HOME/theos/sdks/
+          
       - name: Build
         run: |
           export THEOS=$HOME/theos
+          export PATH=$THEOS/bin:$PATH
           make package
-      - name: Upload Artifact
+          
+      - name: Upload
         uses: actions/upload-artifact@v4
         with:
           name: MyAutoClicker
