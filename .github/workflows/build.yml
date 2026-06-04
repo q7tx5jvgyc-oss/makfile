@@ -1,1 +1,17 @@
-
+name: Build Tweak
+on: [push]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: |
+          bash -c "$(curl -fsSL https://raw.githubusercontent.com/theos/theos/master/bin/install-theos)"
+          export THEOS=$HOME/theos
+          make package
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: MyAutoClicker
+          path: packages/*.deb
