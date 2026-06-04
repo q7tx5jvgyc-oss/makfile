@@ -1,0 +1,9 @@
+Package: com.auto.myclicker
+Name: MyAutoClicker
+Depends: mobilesubstrate, com.xsx.zsusetouch
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Professional Auto Clicker with Floating Menu
+Maintainer: YourName
+Author: YourName
+Section: Tweaks
